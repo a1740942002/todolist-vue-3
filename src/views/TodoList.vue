@@ -2,7 +2,7 @@
   <div class="bg-gray-700 px-8 py-4">
     <h1 class="text-indigo-300 font-bold text-4xl text-center mb-2">TodoList</h1>
     <TodoInput @add-todo="addTodo" class="mb-4"/>
-    <Todos :todos="todos" :content="content"/>
+    <Todos @delete-todo="deleteTodo" :todos="todos"/>
   </div>
 </template>
 
@@ -19,8 +19,13 @@ export default {
   },
   methods:{
     addTodo(content){
-      const todo = { content, isCompleted: false}
+      const id = Math.floor(Math.random() * 1000 + 1)
+      const todo = { id, content, isCompleted: false}
       this.todos.push(todo);
+    },
+    deleteTodo(id){
+      console.log(id)
+      this.todos = this.todos.filter(todo => todo.id !== id);
     }
   },
   data(){

@@ -1,7 +1,7 @@
 <template>
   <!-- This example requires Tailwind CSS v2.0+ -->
 <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
-<button @click="$emit('toggle-onClick')" type="button" :class="isCompleted? 'bg-indigo-600' : 'bg-gray-200'" class="relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" aria-pressed="false">
+<button type="button" :class="isCompleted? 'bg-indigo-600' : 'bg-gray-200'" class="relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" aria-pressed="false">
   <span class="sr-only">Use setting</span>
   <!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
   <span :class="isCompleted? 'translate-x-5':'translate-x-0'" class="pointer-events-none relative inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200">

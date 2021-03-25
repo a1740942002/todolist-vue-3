@@ -1,6 +1,6 @@
 <template>
   <ul class="space-y-2">
-    <TodoItem @toggle-onClick="toggleOnclick" :key="todo.id" v-for="todo in todos" :todo="todo"/>
+    <TodoItem @delete-todo="$emit('delete-todo', $event)" @toggle-onClick="toggleOnclick" :key="todo.id" v-for="todo in todos" :todo="todo"/>
   </ul>
 </template>
 

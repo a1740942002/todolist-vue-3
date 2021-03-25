@@ -1,9 +1,9 @@
 <template>
-  <li class="grid grid-cols-12">
+  <li class="grid grid-cols-12 bg-gray-600 p-2 rounded items-center">
     <div class="col-span-2">
-      <Toggle class=""/>
+      <Toggle @toggle-onClick="$emit('toggle-onClick', todo.id)" :isCompleted="todo.isCompleted"/>
     </div>
-    <p class="col-span-9">Some Text</p>
+    <p :contenteditable="!todo.isCompleted" :class="todo.isCompleted? 'line-through text-gray-500' : ''" class="col-span-9">{{todo.content}}</p>
     <div class="col-span-1">
       <Circular/>
     </div>
@@ -18,6 +18,12 @@ export default {
   components:{
     Toggle,
     Circular
+  },
+  props: {
+    todo: Object
+  },
+  methods:{
+
   }
 }
 </script>

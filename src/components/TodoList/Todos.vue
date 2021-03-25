@@ -1,6 +1,6 @@
 <template>
-  <ul>
-    <TodoItem/>
+  <ul class="space-y-2">
+    <TodoItem @toggle-onClick="toggleOnclick" :key="todo.id" v-for="todo in todos" :todo="todo"/>
   </ul>
 </template>
 
@@ -10,6 +10,16 @@ import TodoItem from './TodoItem';
 export default {
   components:{
     TodoItem
+  },
+  props:{
+    todos: Array
   }
+  ,
+  methods:{
+    toggleOnclick(id){
+      const todo = this.todos.find( todo => id === todo.id);
+      todo.isCompleted = !todo.isCompleted;
+    }
+  },
 }
 </script>

@@ -2,7 +2,7 @@
   <div class="bg-gray-700 px-8 py-4">
     <h1 class="text-indigo-300 font-bold text-4xl text-center mb-2">TodoList</h1>
     <TodoInput @add-todo="addTodo" class="mb-4"/>
-    <Todos @delete-todo="deleteTodo" :todos="todos"/>
+    <Todos @toggle-todo="toggleTodo" @edit-todo="editTodo" @delete-todo="deleteTodo" :todos="todos"/>
   </div>
 </template>
 
@@ -24,8 +24,20 @@ export default {
       this.todos.push(todo);
     },
     deleteTodo(id){
-      console.log(id)
       this.todos = this.todos.filter(todo => todo.id !== id);
+    },
+    editTodo(id, value){
+      // const todo = this.todos.find( todo => todo.id == id);
+      // todo.content = value;
+
+      // 不知道為什麼會報錯？ => 記得要加 return
+      this.todos = this.todos.map( todo => {
+        return todo.id == id ? {...todo, content: value} : todo
+      });
+    },
+    toggleTodo(id){
+      const todo = this.todos.find( todo => id === todo.id);
+      todo.isCompleted = !todo.isCompleted;
     }
   },
   data(){

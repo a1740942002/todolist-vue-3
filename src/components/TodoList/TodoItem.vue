@@ -1,10 +1,10 @@
 <template>
   <li class="grid grid-cols-12 bg-gray-600 p-2 rounded items-center">
     <div class="col-span-2">
-      <Toggle @click="$emit('toggle-onClick', todo.id)" :isCompleted="todo.isCompleted"/>
+      <Toggle @click="$emit('toggle-todo', todo.id)" :isCompleted="todo.isCompleted"/>
     </div>
     <p v-if="!isEditable" @dblclick="isEditable = !isEditable" :class="todo.isCompleted? 'line-through text-gray-500' : ''" class="col-span-9">{{todo.content}}</p>
-    <Input :value="todo.content" class="text-gray-600 px-2 py-1 col-span-9" v-else/>
+    <Input @change="$emit('edit-todo', todo.id, $event.target.value);isEditable = !isEditable" :value="todo.content" class="text-gray-600 px-2 py-1 col-span-9" v-else/>
     <div class="col-span-1">
       <Circular @click="$emit('delete-todo', todo.id)"/>
     </div>

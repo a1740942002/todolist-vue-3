@@ -9,7 +9,7 @@
 <script>
 import TodoInput from '../components/TodoList/TodoInput.vue';
 import Todos from '../components/TodoList/Todos.vue';
-
+import axios from 'axios';
 
 export default {
   name: 'TodoList',
@@ -19,48 +19,39 @@ export default {
   },
   methods:{
     addTodo(content){
-      const id = Math.floor(Math.random() * 1000 + 1)
-      const todo = { id, content, isCompleted: false}
-      this.todos.push(todo);
+      const todo = { content, isCompleted: false}
+      axios.post('http://localhost:3000/todos', todo)
+      .then(res => this.todos.push(res.data));
     },
     deleteTodo(id){
-      this.todos = this.todos.filter(todo => todo.id !== id);
+      axios.delete(`http://localhost:3000/todos/${id}`)
+      .then(() => this.todos = this.todos.filter(todo => todo.id !== id));
     },
     editTodo(id, value){
-      // const todo = this.todos.find( todo => todo.id == id);
-      // todo.content = value;
+      const todo = this.todos.find( todo => todo.id == id);
+      todo.content = value
+      axios.put(`http://localhost:3000/todos/${id}`, todo);
 
-      // 不知道為什麼會報錯？ => 記得要加 return
-      this.todos = this.todos.map( todo => {
-        return todo.id == id ? {...todo, content: value} : todo
-      });
+      // 用 map 的寫法
+      // this.todos = this.todos.map( todo => {
+      //   return todo.id == id ? {...todo, content: value} : todo
+      // });
     },
     toggleTodo(id){
       const todo = this.todos.find( todo => id === todo.id);
       todo.isCompleted = !todo.isCompleted;
+      axios.put(`http://localhost:3000/todos/${id}`, todo)
     }
   },
   data(){
     return {
-      todos: [
-        {
-          id: 1,
-          content: 'Hello World',
-          isCompleted: false
-        },
-        {
-          id: 2,
-          content: '看牙齒',
-          isCompleted: false
-        },
-        {
-          id: 3,
-          content: '禮拜六參加生日派對',
-          isCompleted: true
-        },
-      ]
+      todos: []
     }
   },
+  mounted(){
+    axios.get('http://localhost:3000/todos')
+    .then(res => this.todos = res.data);
+  }
 
 }
 </script>

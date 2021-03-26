@@ -11,7 +11,7 @@ import TodoInput from '../components/TodoList/TodoInput.vue';
 import Todos from '../components/TodoList/Todos.vue';
 import axios from 'axios';
 
-const backendurl = 'https://weblai-api.herokuapp.com/todos';
+const backendurl = 'https://weblai-strapi.herokuapp.com/todos';
 
 export default {
   name: 'TodoList',

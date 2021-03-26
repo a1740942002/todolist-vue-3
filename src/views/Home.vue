@@ -11,6 +11,8 @@ import TodoInput from '../components/TodoList/TodoInput.vue';
 import Todos from '../components/TodoList/Todos.vue';
 import axios from 'axios';
 
+const backendurl = 'https://weblai-api.herokuapp.com/todos';
+
 export default {
   name: 'TodoList',
   components:{
@@ -20,23 +22,23 @@ export default {
   methods:{
     addTodo(content){
       const todo = { content, isCompleted: false}
-      axios.post('https://weblai-api.herokuapp.com/todos', todo)
+      axios.post(`${backendurl}`, todo)
       .then(res => this.todos.push(res.data));
     },
     deleteTodo(id){
-      axios.delete(`https://weblai-api.herokuapp.com/todos/${id}`)
+      axios.delete(`${backendurl}/${id}`)
       .then(() => this.todos = this.todos.filter(todo => todo.id !== id));
     },
     editTodo(id, value){
       if(!value){
-        axios.delete(`https://weblai-api.herokuapp.com/todos/${id}`)
+        axios.delete(`${backendurl}/${id}`)
         .then(() => this.todos = this.todos.filter(todo => todo.id !== id));
         return;
       }
 
       const todo = this.todos.find( todo => todo.id == id);
       todo.content = value
-      axios.put(`https://weblai-api.herokuapp.com/todos/${id}`, todo);
+      axios.put(`${backendurl}/${id}`, todo);
 
       // 用 map 的寫法
       // this.todos = this.todos.map( todo => {
@@ -46,7 +48,7 @@ export default {
     toggleTodo(id){
       const todo = this.todos.find( todo => id === todo.id);
       todo.isCompleted = !todo.isCompleted;
-      axios.put(`https://weblai-api.herokuapp.com/todos/${id}`, todo)
+      axios.put(`${backendurl}/${id}`, todo)
     }
   },
   data(){
@@ -55,7 +57,7 @@ export default {
     }
   },
   mounted(){
-    axios.get('https://weblai-api.herokuapp.com/todos')
+    axios.get(`${backendurl}`)
     .then(res => this.todos = res.data);
   }
 

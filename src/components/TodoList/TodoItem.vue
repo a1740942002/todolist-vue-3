@@ -3,8 +3,8 @@
     <div class="col-span-2">
       <Toggle @click="$emit('toggle-todo', todo.id)" :isCompleted="todo.isCompleted"/>
     </div>
-    <p v-if="!isEditable" @dblclick="isEditable = !isEditable" :class="todo.isCompleted? 'line-through text-gray-500' : ''" class="col-span-9">{{todo.content}}</p>
-    <Input @blur="$emit('edit-todo', todo.id, $event.target.value);isEditable = !isEditable" :value="todo.content" class="text-gray-600 px-2 py-1 col-span-9" v-else/>
+    <p v-if="!isEditable" @dblclick="isEditable = true" :class="todo.isCompleted? 'line-through text-gray-500' : ''" class="col-span-9">{{todo.content}}</p>
+    <Input v-else @keydown.esc="handleEditTodo" @keydown.enter="handleEditTodo" @blur="handleEditTodo" :value="todo.content" class="text-gray-600 px-2 py-1 col-span-9" />
     <div class="col-span-1">
       <Circular @click="$emit('delete-todo', todo.id)"/>
     </div>
@@ -24,7 +24,10 @@ export default {
     todo: Object
   },
   methods:{
-
+    handleEditTodo(e){
+      this.$emit('edit-todo', this.todo.id, e.target.value);
+      this.isEditable = false;
+    }
   },
   data(){
     return {

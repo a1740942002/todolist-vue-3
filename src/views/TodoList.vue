@@ -28,6 +28,12 @@ export default {
       .then(() => this.todos = this.todos.filter(todo => todo.id !== id));
     },
     editTodo(id, value){
+      if(!value){
+        axios.delete(`http://localhost:3000/todos/${id}`)
+        .then(() => this.todos = this.todos.filter(todo => todo.id !== id));
+        return;
+      }
+
       const todo = this.todos.find( todo => todo.id == id);
       todo.content = value
       axios.put(`http://localhost:3000/todos/${id}`, todo);

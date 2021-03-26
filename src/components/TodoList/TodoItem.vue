@@ -1,9 +1,9 @@
 <template>
   <li class="grid grid-cols-12 bg-gray-600 p-2 rounded items-center">
     <div class="col-span-2">
-      <Toggle @click="$emit('toggle-todo', todo.id)" :isCompleted="todo.isCompleted"/>
+      <Toggle @click="$emit('toggle-todo', todo.id)" :isEnable="todo.isCompleted"/>
     </div>
-    <p v-if="!isEditable" @dblclick="isEditable = true" :class="todo.isCompleted? 'line-through text-gray-500' : ''" class="col-span-9">{{todo.content}}</p>
+    <p v-if="!isEditable" @click="isEditable = true" @dblclick="isEditable = true" :class="todo.isCompleted? 'line-through text-gray-500' : ''" class="col-span-9">{{todo.content}}</p>
     <Input v-else @keydown.esc="handleEditTodo" @keydown.enter="handleEditTodo" @blur="handleEditTodo" :value="todo.content" class="text-gray-600 px-2 py-1 col-span-9" />
     <div class="col-span-1">
       <Circular @click="$emit('delete-todo', todo.id)"/>

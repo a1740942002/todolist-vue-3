@@ -1,5 +1,5 @@
 <template>
-  <div class="w-4/12 mx-auto">
+  <div class="md:w-4/12 mx-auto">
     <div id="nav" class="text-center bg-gray-800 py-4">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |

@@ -20,23 +20,23 @@ export default {
   methods:{
     addTodo(content){
       const todo = { content, isCompleted: false}
-      axios.post('http://localhost:3000/todos', todo)
+      axios.post('https://todolist-vue-3.herokuapp.com/todos', todo)
       .then(res => this.todos.push(res.data));
     },
     deleteTodo(id){
-      axios.delete(`http://localhost:3000/todos/${id}`)
+      axios.delete(`https://todolist-vue-3.herokuapp.com/todos/${id}`)
       .then(() => this.todos = this.todos.filter(todo => todo.id !== id));
     },
     editTodo(id, value){
       if(!value){
-        axios.delete(`http://localhost:3000/todos/${id}`)
+        axios.delete(`https://todolist-vue-3.herokuapp.com/todos/${id}`)
         .then(() => this.todos = this.todos.filter(todo => todo.id !== id));
         return;
       }
 
       const todo = this.todos.find( todo => todo.id == id);
       todo.content = value
-      axios.put(`http://localhost:3000/todos/${id}`, todo);
+      axios.put(`https://todolist-vue-3.herokuapp.com/todos/${id}`, todo);
 
       // 用 map 的寫法
       // this.todos = this.todos.map( todo => {
@@ -46,7 +46,7 @@ export default {
     toggleTodo(id){
       const todo = this.todos.find( todo => id === todo.id);
       todo.isCompleted = !todo.isCompleted;
-      axios.put(`http://localhost:3000/todos/${id}`, todo)
+      axios.put(`https://todolist-vue-3.herokuapp.com/todos/${id}`, todo)
     }
   },
   data(){
@@ -55,7 +55,7 @@ export default {
     }
   },
   mounted(){
-    axios.get('http://localhost:3000/todos')
+    axios.get('https://todolist-vue-3.herokuapp.com/todos')
     .then(res => this.todos = res.data);
   }
 

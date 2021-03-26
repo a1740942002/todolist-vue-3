@@ -1,18 +1,63 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="bg-gray-700 px-8 py-4">
+    <h1 class="text-indigo-300 font-bold text-4xl text-center mb-2">TodoList</h1>
+    <TodoInput @add-todo="addTodo" class="mb-4"/>
+    <Todos @toggle-todo="toggleTodo" @edit-todo="editTodo" @delete-todo="deleteTodo" :todos="todos"/>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import TodoInput from '../components/TodoList/TodoInput.vue';
+import Todos from '../components/TodoList/Todos.vue';
+import axios from 'axios';
 
 export default {
-  name: 'Home',
-  components: {
-    HelloWorld
+  name: 'TodoList',
+  components:{
+    TodoInput,
+    Todos
+  },
+  methods:{
+    addTodo(content){
+      const todo = { content, isCompleted: false}
+      axios.post('https://weblai-api.herokuapp.com/todos', todo)
+      .then(res => this.todos.push(res.data));
+    },
+    deleteTodo(id){
+      axios.delete(`https://weblai-api.herokuapp.com/todos/${id}`)
+      .then(() => this.todos = this.todos.filter(todo => todo.id !== id));
+    },
+    editTodo(id, value){
+      if(!value){
+        axios.delete(`https://weblai-api.herokuapp.com/todos/${id}`)
+        .then(() => this.todos = this.todos.filter(todo => todo.id !== id));
+        return;
+      }
+
+      const todo = this.todos.find( todo => todo.id == id);
+      todo.content = value
+      axios.put(`https://weblai-api.herokuapp.com/todos/${id}`, todo);
+
+      // 用 map 的寫法
+      // this.todos = this.todos.map( todo => {
+      //   return todo.id == id ? {...todo, content: value} : todo
+      // });
+    },
+    toggleTodo(id){
+      const todo = this.todos.find( todo => id === todo.id);
+      todo.isCompleted = !todo.isCompleted;
+      axios.put(`https://weblai-api.herokuapp.com/todos/${id}`, todo)
+    }
+  },
+  data(){
+    return {
+      todos: []
+    }
+  },
+  mounted(){
+    axios.get('https://weblai-api.herokuapp.com/todos')
+    .then(res => this.todos = res.data);
   }
+
 }
 </script>

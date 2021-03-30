@@ -30,6 +30,7 @@ export default {
       .then(() => this.todos = this.todos.filter(todo => todo.id !== id));
     },
     editTodo(id, value){
+      // 如果沒有任何文字，就刪除
       if(!value){
         axios.delete(`${backendurl}/${id}`)
         .then(() => this.todos = this.todos.filter(todo => todo.id !== id));

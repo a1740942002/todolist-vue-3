@@ -6,19 +6,23 @@
 
 <script>
 import TodoItem from './TodoItem';
+import {mapActions, mapGetters} from 'vuex'
 
 export default {
   components:{
     TodoItem
   },
-  props:{
-    todos: Array
-  }
-  ,
   methods:{
+    ...mapActions(['indexTodos']),
     handleEdit(id, value){
       this.$emit('edit-todo', id,value)
     }
   },
+  computed:{
+    ...mapGetters(['todos'])
+  },
+  mounted(){
+    this.indexTodos();
+  }
 }
 </script>

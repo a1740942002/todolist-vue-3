@@ -18,6 +18,12 @@ export default {
     },
     addTodo(state, todo){
       state.todos.push(todo);
+    },
+    deleteTodo(state, id){
+      state.todos = state.todos.filter(todo => todo.id !== id);
+    },
+    editTodo(state, todo){
+      state.todos = state.todos.map(oldTodo => oldTodo.id === todo.id? todo : oldTodo)
     }
   },
   // API
@@ -29,6 +35,14 @@ export default {
     async storeTodo({commit}, todo){
       const res = await axios.post(backendurl, todo);
       commit('addTodo', res.data)
+    },
+    async destoryTodo({commit}, id){
+      await axios.delete(`${backendurl}/${id}`);
+      commit('deleteTodo', id)
+    },
+    async updateTodo({commit}, todo){
+      const res = await axios.put(`${backendurl}/${todo.id}`, todo);
+      commit('editTodo', res.data)
     }
   }
 };
